@@ -43,3 +43,6 @@ global using System.Reflection;
 global using Catalog.API.Model;
 global using Catalog.API.Infastructure.EntityConfiguration;
 global using Catalog.API.Infastructure;
+global using Catalog.API.Extensions;
+global using Catalog.API.ViewModel;
+global using Catalog.API.Infastructure.Exceptions;

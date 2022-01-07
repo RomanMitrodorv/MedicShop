@@ -1,4 +1,5 @@
-﻿namespace Catalog.API.Model
+﻿
+namespace Catalog.API.Model
 {
     public class CatalogItem
     {
@@ -13,5 +14,29 @@
         public int CatalogBrandId { get; set; }
         public CatalogBrand CatalogBrand { get; set; }
         public int AvailableStock { get; set; }
+
+        public int RemoveStock(int quantity)
+        {
+            if(AvailableStock == 0)
+                throw new CatalogDomainException($"Empty stock, product item {Name} is sold out");
+
+            if (quantity <= 0)
+                throw new CatalogDomainException("Item units desired should be greater than zero");
+
+            int removed = Math.Min(quantity, AvailableStock);
+
+            AvailableStock -= removed;
+
+            return removed;
+        }
+
+        public int AddStock(int quantity)
+        {
+            int origin = AvailableStock;
+
+            AvailableStock += quantity;
+
+            return AvailableStock - origin;
+        }
     }
 }
