@@ -62,9 +62,6 @@ public class BasketController : ControllerBase
             basketCheckout.State, basketCheckout.Country, basketCheckout.ZipCode, basketCheckout.CardNumber, basketCheckout.CardHolderName,
             basketCheckout.CardExpiration, basketCheckout.CardSecurityNumber, basketCheckout.CardTypeId, basketCheckout.Buyer, basketCheckout.RequestId, basket);
 
-        // Once basket is checkout, sends an integration event to
-        // ordering.api to convert basket to order and proceeds with
-        // order creation process
         try
         {
             _eventBus.Publish(eventMessage);

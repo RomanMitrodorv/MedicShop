@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IntegrationEventLogEF.Services
+{
+    public interface IIntegrationEventLogService
+    {
+        Task<IEnumerable<IntegrationEventLogEntry>> GetEventLogsPendingToPublishAsync(Guid transactionId);
+
+        Task SaveEventAsync(IntegrationEvent @event, IDbContextTransaction transaction);
+
+        Task MarkEventAsPublishedAsync(Guid eventId);
+
+        Task MarkEventAsInProgressAsync(Guid eventId);
+
+        Task MarkEventAsFailedAsync(Guid eventId);
+    }
+}
