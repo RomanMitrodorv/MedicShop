@@ -10,7 +10,12 @@ try
     
     Log.Information("Applying migrations ({ApplicationContext})...", Program.AppName);
 
-    host.MigrateDbContext
+    host.MigrateDbContext<CatalogContext>((_, __) =>{ })
+        .MigrateDbContext<IntegrationEventLogContext>((_, __) => { });
+
+    Log.Information("Starting web host ({ApplicationContext})...", Program.AppName);
+
+    host.Run();
 
     return 0;
 }
@@ -28,7 +33,7 @@ IConfiguration GetConfiguration()
 {
     return new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("application.json", false, true)
+        .AddJsonFile("appsettings.json", false, true)
         .AddEnvironmentVariables()
         .Build();
 }

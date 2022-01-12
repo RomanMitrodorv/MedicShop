@@ -1,5 +1,4 @@
 ﻿using CatalogApi;
-using Microsoft.Extensions.Logging;
 using static CatalogApi.Catalog;
 
 namespace Catalog.API.Grpc

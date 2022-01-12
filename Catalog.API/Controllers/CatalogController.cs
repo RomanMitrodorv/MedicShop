@@ -1,4 +1,6 @@
-﻿namespace Catalog.API.Controllers
+﻿using Catalog.API.IntegrationEvents.Events;
+
+namespace Catalog.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
@@ -6,10 +8,11 @@
     {
         private readonly CatalogContext _catalogContext;
         private readonly CatalogSettings _settings;
-
-        public CatalogController(CatalogContext catalogContext, IOptionsSnapshot<CatalogSettings> settings)
+        private readonly ICatalogIntegrationEventService _catalogIntegrationEventService;
+        public CatalogController(CatalogContext catalogContext, IOptionsSnapshot<CatalogSettings> settings, ICatalogIntegrationEventService catalogIntegrationEventService)
         {
-            _catalogContext = catalogContext;
+            _catalogContext = catalogContext ?? throw new ArgumentNullException(nameof(catalogContext));
+            _catalogIntegrationEventService = catalogIntegrationEventService ?? throw new ArgumentNullException(nameof(catalogIntegrationEventService));
             _settings = settings.Value;
         }
 
@@ -174,16 +177,19 @@
             return Ok(model);
         }
 
-        public async Task<ActionResult<PaginatedItemsViewModel<CatalogItem>>> ItemsByTypeIdAndBrandIdAsync(int? typeId, int? brandId, [FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0)
+        [HttpGet]
+        [Route("items/type/{catalogTypeId}/brand/{catalogBrandId:int?}")]
+        [ProducesResponseType(typeof(PaginatedItemsViewModel<CatalogItem>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<PaginatedItemsViewModel<CatalogItem>>> ItemsByTypeIdAndBrandIdAsync(int typeId, int? brandId, [FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0)
         {
             var root = (IQueryable<CatalogItem>)_catalogContext.CatalogItems;
 
+            root = root.Where(ci => ci.CatalogTypeId == typeId);
+
             if (brandId.HasValue)
-                root = root.Where(x => x.CatalogBrandId == brandId);
-
-            if (typeId.HasValue)
-                root = root.Where(x => x.CatalogTypeId == typeId);
-
+            {
+                root = root.Where(ci => ci.CatalogBrandId == brandId);
+            }
 
             var countItems = await root.LongCountAsync();
 
@@ -225,6 +231,39 @@
             }
 
             return items;
+        }
+
+        [HttpPut]
+        [Route("items")]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Created)]
+        public async Task<ActionResult> UpdateItemAsync([FromBody] CatalogItem itemForUpdate)
+        {
+            var catalogItem = await _catalogContext.CatalogItems.SingleOrDefaultAsync(x => x.Id == itemForUpdate.Id);
+
+            if (catalogItem == null)
+                return NotFound(new {Message = $"Item with id {itemForUpdate.Id} not found"});
+
+            var oldPrice = catalogItem.Price;
+
+            var raiseProductPriceChangedEvent = oldPrice != itemForUpdate.Price;
+
+            catalogItem = itemForUpdate;
+
+            _catalogContext.CatalogItems.Update(catalogItem);
+
+            if (raiseProductPriceChangedEvent)
+            {
+                var priceChangeEvent = new ProductPriceChangedIntegrationEvent(itemForUpdate.Price, oldPrice, catalogItem.Id);
+
+                await _catalogIntegrationEventService.SaveEventAndCatalogContextChangesAsync(priceChangeEvent);
+
+                await _catalogIntegrationEventService.PublishByEventBusAsync(priceChangeEvent);
+            }
+            else
+                await _catalogContext.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(ItemByIdAsync), new { id = itemForUpdate.Id }, null);
         }
     }
 }

@@ -2,15 +2,27 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<GenerateErrorForMissingTargetingPacks>false</GenerateErrorForMissingTargetingPacks>
-		<IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+		<DebugType>portable</DebugType>
+		<PreserveCompilationContext>true</PreserveCompilationContext>
 		<AssemblyName>Catalog.API</AssemblyName>
 		<PackageId>Catalog.API</PackageId>
+		<UserSecretsId>aspnet-Catalog.API-20161122013618</UserSecretsId>
 		<GenerateErrorForMissingTargetingPacks>false</GenerateErrorForMissingTargetingPacks>
 		<IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
-		<PreserveCompilationContext>true</PreserveCompilationContext>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<Content Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot;">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Update="web.config;">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+	
 	<ItemGroup>
 		<Protobuf Include="Proto\catalog.proto" GrpcServices="Server" Generator="MSBuild:Compile" />
 		<Content Include="@(Protobuf)" />
