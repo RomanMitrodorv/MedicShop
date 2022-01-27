@@ -1,5 +1,4 @@
-﻿
-namespace Ordering.Domain.SeedWork;
+﻿namespace Ordering.Domain.SeedWork;
 
 public interface IUnitOfWork : IDisposable
 {
