@@ -4,7 +4,7 @@ public class OrderItem : Entity
 {
     private string _productName;
     private string _productUrl;
-    private decimal _units;
+    private int _units;
     private decimal _unitPrice;
     private decimal _discount;
 
@@ -12,7 +12,7 @@ public class OrderItem : Entity
 
     protected OrderItem() { }
 
-    public OrderItem(string productName, string productUrl, decimal unitPrice, decimal discount, int productId, decimal units = 1)
+    public OrderItem(string productName, string productUrl, decimal unitPrice, decimal discount, int productId, int units = 1)
     {
         if (units <= 0)
             throw new OrderingDomainException($"Invalid number of units - {units}");
@@ -34,7 +34,7 @@ public class OrderItem : Entity
     public decimal GetCurrentDiscount() => _discount;
     public string GetOrderItemProductName() => _productName;
     public decimal GetUnitPrice() => _unitPrice;
-    public decimal GetUnits() => _units;
+    public int GetUnits() => _units;
 
 
     public void SetNewDiscount(decimal discount)
@@ -45,7 +45,7 @@ public class OrderItem : Entity
         _discount = discount;
     }
 
-    public void AddUnits(decimal units)
+    public void AddUnits(int units)
     {
         if (units < 0)
             throw new OrderingDomainException($"Units is not valid - {units}");

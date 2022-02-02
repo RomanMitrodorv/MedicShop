@@ -41,13 +41,20 @@ public class Order : Entity, IAggregateRoot
     public void SetPaymentId(int id) => _paymentMethodId = id;
     public void SetBuyerId(int id) => _buyerId = id;
 
+    public static Order NewDraft()
+    {
+        var order = new Order();
+        order._isDraft = true;
+        return order;
+    }
+
     public void AddOrderItem(int productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
     {
         var existingOrderForProduct = _orderItems.SingleOrDefault(x => x.ProductId == productId);
 
-        if(existingOrderForProduct != null)
-        { 
-            if(discount > existingOrderForProduct.GetCurrentDiscount())
+        if (existingOrderForProduct != null)
+        {
+            if (discount > existingOrderForProduct.GetCurrentDiscount())
                 existingOrderForProduct.SetNewDiscount(discount);
 
             existingOrderForProduct.AddUnits(units);
@@ -128,6 +135,11 @@ public class Order : Entity, IAggregateRoot
         var domainEvent = new OrderStartedDomainEvent(userId, userName, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration, this);
 
         AddDomainEvent(domainEvent);
+    }
+
+    public decimal GetTotal()
+    {
+        return _orderItems.Sum(o => o.GetUnits() * o.GetUnitPrice());
     }
 
     private void StatusChangeException(OrderStatus orderStatusToChange)
