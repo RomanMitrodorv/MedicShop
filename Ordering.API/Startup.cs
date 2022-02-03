@@ -177,8 +177,8 @@ public static class CustomExtensionsMethods
                 {
                     Implicit = new OpenApiOAuthFlow()
                     {
-                        AuthorizationUrl = new Uri($"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/authorize"),
-                        TokenUrl = new Uri($"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/token"),
+                        AuthorizationUrl = new Uri($"{configuration.GetValue<string>("IdentityUrl")}/connect/authorize"),
+                        TokenUrl = new Uri($"{configuration.GetValue<string>("IdentityUrl")}/connect/token"),
                         Scopes = new Dictionary<string, string>()
                         {
                             { "orders", "Ordering API" }

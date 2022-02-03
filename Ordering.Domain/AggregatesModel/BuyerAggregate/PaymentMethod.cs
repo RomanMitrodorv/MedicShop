@@ -11,6 +11,8 @@ public class PaymentMethod : Entity
 
     public CardType CardType { get; private set; }
 
+    protected PaymentMethod() { }
+
     public PaymentMethod(string alias, string cardNumber, string securityNumber, string cardHolderName, DateTime expiration, int cardTypeId)
     {
         _cardNumber = !string.IsNullOrWhiteSpace(cardNumber) ? cardNumber : throw new OrderingDomainException(nameof(cardNumber));
