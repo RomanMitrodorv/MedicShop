@@ -193,8 +193,8 @@
                 {
                     HostName = configuration["EventBusConnection"],
                     DispatchConsumersAsync = true,
-                    UserName = string.IsNullOrEmpty(configuration["EventBusUserName"]) ? configuration["EventBusUserName"] : null,
-                    Password = string.IsNullOrEmpty(configuration["EventBusPassword"]) ? configuration["EventBusPassword"] : null,
+                    UserName = !string.IsNullOrEmpty(configuration["EventBusUserName"]) ? configuration["EventBusUserName"] : null,
+                    Password = !string.IsNullOrEmpty(configuration["EventBusPassword"]) ? configuration["EventBusPassword"] : null,
                 };
                 return new DefaultRabbitMQPersistentConnection(factory, logger);
             });

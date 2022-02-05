@@ -74,4 +74,5 @@ global using MedicShop.EventBusRabbitMQ;
 global using Ordering.API.Controllers;
 global using Ordering.API.Infastructure.Filters;
 global using Ordering.API.Infastructure.AutofacModules;
+global using Ordering.API.Application.IntegrationsEvents.EventHandling;
 

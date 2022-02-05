@@ -11,6 +11,7 @@ namespace Services.Identity.API.Data
             var clientUrls = new Dictionary<string, string>();
 
             clientUrls.Add("BasketApi", configuration.GetValue<string>("BasketApiClient"));
+            clientUrls.Add("OrderingApi", configuration.GetValue<string>("OrderingApiClient"));
 
             if (!context.Clients.Any())
             {

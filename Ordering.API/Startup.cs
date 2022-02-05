@@ -72,7 +72,7 @@ public class Startup
     private void ConfigureEventBus(IApplicationBuilder app)
     {
         var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-
+        eventBus.Subscribe<UserCheckoutAcceptedIntegrationEvent, UserCheckoutAcceptedIntegrationEventHandler>();
     }
 
     protected virtual void ConfigureAuth(IApplicationBuilder app)
