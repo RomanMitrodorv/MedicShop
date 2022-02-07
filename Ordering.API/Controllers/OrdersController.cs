@@ -101,5 +101,36 @@
 
             return await _mediator.Send(createOrderDraftCommand);
         }
+
+
+        [Route("ship")]
+        [HttpPut]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> ShipOrderAsync([FromBody] ShipOrderCommand command, [FromHeader(Name = "x-requestid")] string requestId)
+        {
+            bool commandResult = false;
+
+            if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
+            {
+                var requestShipOrder = new IdentifiedCommand<ShipOrderCommand, bool>(command, guid);
+
+                _logger.LogInformation(
+                    "----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
+                    requestShipOrder.GetGenericTypeName(),
+                    nameof(requestShipOrder.Command.OrderNumber),
+                    requestShipOrder.Command.OrderNumber,
+                    requestShipOrder);
+
+                commandResult = await _mediator.Send(requestShipOrder);
+            }
+
+            if (!commandResult)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
     }
 }

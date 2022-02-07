@@ -129,6 +129,21 @@ public class Order : Entity, IAggregateRoot
 
     }
 
+    public void SetCancelledStatusWhenStockIsRejected(IEnumerable<int> orderStockRejectedItems)
+    {
+        if (_orderStatusId == OrderStatus.AwaitingValidation.Id)
+        {
+            _orderStatusId = OrderStatus.Cancelled.Id;
+
+            var itemsStockRejectedProductNames = OrderItems
+                .Where(c => orderStockRejectedItems.Contains(c.ProductId))
+                .Select(c => c.GetOrderItemProductName());
+
+            var itemsStockRejectedDescription = string.Join(", ", itemsStockRejectedProductNames);
+            _description = $"The product items don't have stock: ({itemsStockRejectedDescription}).";
+        }
+    }
+
     private void AddOrderStartedDomainEvent(string userId, string userName, int cardTypeId, string cardNumber,
                                           string cardSecurityNumber, string cardHolderName, DateTime cardExpiration)
     {

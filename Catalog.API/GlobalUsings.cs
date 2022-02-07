@@ -59,3 +59,5 @@ global using Catalog.API.Infastructure.ActionResults;
 global using Catalog.API.Infastructure.Exceptions;
 global using Catalog.API.Extensions;
 global using Microsoft.Extensions.Logging;
+global using Catalog.API.IntegrationEvents.Events;
+global using Catalog.API.IntegrationEvents.EventHandler;
