@@ -45,7 +45,11 @@
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
 	</ItemGroup>
 
-
+	<ItemGroup>
+		<Protobuf Include="Proto\ordering.proto" GrpcServices="Server" Generator="MSBuild:Compile" />
+		<Content Include="Proto\ordering.proto" />
+		<None Remove="@(Protobuf)" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />

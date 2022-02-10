@@ -75,4 +75,5 @@ global using Ordering.API.Controllers;
 global using Ordering.API.Infastructure.Filters;
 global using Ordering.API.Infastructure.AutofacModules;
 global using Ordering.API.Application.IntegrationsEvents.EventHandling;
-
+global using ApiModels = Ordering.API.Application.Models;
+global using AppCommand = Ordering.API.Application.Commands;
