@@ -8,6 +8,7 @@
             return new List<ApiResource>
             {
                 new ApiResource("basket", "Basket Service"),
+                new ApiResource("orders", "Orders Service"),
 
             };
         }
@@ -43,6 +44,21 @@
                     AllowedScopes =
                     {
                         "basket"
+                    }
+                },
+                new Client
+                {
+                    ClientId = "orderingswaggerui",
+                    ClientName = "Ordering Swagger UI",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = { $"{clientsUrl["OrderingApi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{clientsUrl["OrderingApi"]}/swagger/" },
+
+                    AllowedScopes =
+                    {
+                        "orders"
                     }
                 }
             };

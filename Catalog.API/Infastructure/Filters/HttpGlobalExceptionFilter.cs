@@ -1,6 +1,4 @@
-﻿using Catalog.API.Infastructure.ActionResults;
-
-namespace Catalog.API.Infastructure.Filters
+﻿namespace Catalog.API.Infastructure.Filters
 {
     public class HttpGlobalExceptionFilter : IExceptionFilter
     {

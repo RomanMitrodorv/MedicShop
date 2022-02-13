@@ -10,7 +10,7 @@
 
             builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
 
-            builder.Property(x => x.Price).IsRequired();
+            builder.Property(x => x.Price).IsRequired().HasColumnType("decimal(16, 2)");
 
             builder.Property(x => x.PictureFileName).IsRequired(false);
 

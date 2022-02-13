@@ -12,8 +12,6 @@ public record UserCheckoutAcceptedIntegrationEvent : IntegrationEvent
 
     public string Street { get; init; }
 
-    public string State { get; init; }
-
     public string Country { get; init; }
 
     public string ZipCode { get; init; }
@@ -35,7 +33,7 @@ public record UserCheckoutAcceptedIntegrationEvent : IntegrationEvent
     public CustomerBasket Basket { get; }
 
     public UserCheckoutAcceptedIntegrationEvent(string userId, string userName, string city, string street,
-        string state, string country, string zipCode, string cardNumber, string cardHolderName,
+         string country, string zipCode, string cardNumber, string cardHolderName,
         DateTime cardExpiration, string cardSecurityNumber, int cardTypeId, string buyer, Guid requestId,
         CustomerBasket basket)
     {
@@ -43,7 +41,6 @@ public record UserCheckoutAcceptedIntegrationEvent : IntegrationEvent
         UserName = userName;
         City = city;
         Street = street;
-        State = state;
         Country = country;
         ZipCode = zipCode;
         CardNumber = cardNumber;

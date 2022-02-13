@@ -31,7 +31,7 @@ public class BasketController : ControllerBase
         return Ok(basket ?? new CustomerBasket(id));
     }
 
-    [HttpPost]
+    [HttpPut]
     [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<CustomerBasket>> UpdateBasketAsync([FromBody] CustomerBasket value)
     {
@@ -59,7 +59,7 @@ public class BasketController : ControllerBase
         var userName = this.HttpContext.User.FindFirst(x => x.Type == ClaimTypes.Name).Value;
 
         var eventMessage = new UserCheckoutAcceptedIntegrationEvent(userId, userName, basketCheckout.City, basketCheckout.Street,
-            basketCheckout.State, basketCheckout.Country, basketCheckout.ZipCode, basketCheckout.CardNumber, basketCheckout.CardHolderName,
+             basketCheckout.Country, basketCheckout.ZipCode, basketCheckout.CardNumber, basketCheckout.CardHolderName,
             basketCheckout.CardExpiration, basketCheckout.CardSecurityNumber, basketCheckout.CardTypeId, basketCheckout.Buyer, basketCheckout.RequestId, basket);
 
         try

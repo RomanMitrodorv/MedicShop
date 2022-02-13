@@ -4,15 +4,8 @@
     {
         public CatalogContext CreateDbContext(string[] args)
         {
-            var config = new ConfigurationBuilder()
-                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory()))
-                .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables()
-                .Build();
-
-            var optionsBuilder = new DbContextOptionsBuilder<CatalogContext>();
-
-            optionsBuilder.UseSqlServer(config["ConnectionString"], sqlServerOptionsAction: o => o.MigrationsAssembly("CatalogContext.API"));
+            var optionsBuilder = new DbContextOptionsBuilder<CatalogContext>()
+                .UseSqlServer("Server=.;Initial Catalog=Services.CatalogDb;Integrated Security=true");
 
             return new CatalogContext(optionsBuilder.Options);
         }
