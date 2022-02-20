@@ -113,6 +113,8 @@ namespace Catalog.API.Controllers
             return await _catalogContext.CatalogTypes.ToListAsync();
         }
 
+
+
         [HttpPost]
         [Route("items")]
         [ProducesResponseType((int)HttpStatusCode.Created)]
@@ -193,16 +195,14 @@ namespace Catalog.API.Controllers
 
             var countItems = await root.LongCountAsync();
 
-            var itemsOfPage = await root.OrderBy(x => x.Name)
-                .Skip(pageSize * pageIndex)
-                .Take(pageIndex)
-                .ToListAsync();
+            var itemsOfPage = await root
+                                .Skip(pageSize * pageIndex)
+                                .Take(pageSize)
+                                .ToListAsync();
 
             itemsOfPage = ChangeUriPlaceholder(itemsOfPage);
 
-            var model = new PaginatedItemsViewModel<CatalogItem>(pageIndex, pageSize, countItems, itemsOfPage);
-
-            return Ok(model);
+            return new PaginatedItemsViewModel<CatalogItem>(pageIndex, pageSize, countItems, itemsOfPage);
         }
 
         private async Task<List<CatalogItem>> GetItemsByIdsAsync(string ids)
