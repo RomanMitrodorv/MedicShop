@@ -14,6 +14,9 @@ namespace Catalog.API.Model
         public int CatalogBrandId { get; set; }
         public CatalogBrand CatalogBrand { get; set; }
         public int AvailableStock { get; set; }
+        public int RestockThreshold { get; set; }
+        public int MaxStockThreshold { get; set; }
+        public bool OnReorder { get; set; }
 
         public int RemoveStock(int quantity)
         {

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Catalog.API.Infastructure.Migrations.CatalogContext
+namespace Catalog.API.Infastructure.Migrations.CatalogMigrations
 {
     public partial class Initial : Migration
     {
@@ -55,7 +55,10 @@ namespace Catalog.API.Infastructure.Migrations.CatalogContext
                     PictureFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CatalogTypeId = table.Column<int>(type: "int", nullable: false),
                     CatalogBrandId = table.Column<int>(type: "int", nullable: false),
-                    AvailableStock = table.Column<int>(type: "int", nullable: false)
+                    AvailableStock = table.Column<int>(type: "int", nullable: false),
+                    RestockThreshold = table.Column<int>(type: "int", nullable: false),
+                    MaxStockThreshold = table.Column<int>(type: "int", nullable: false),
+                    OnReorder = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

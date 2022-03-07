@@ -14,8 +14,8 @@ public class Buyer : Entity, IAggregateRoot
 
     public Buyer(string identity, string name) : this()
     {
-        IdentityGuid = !string.IsNullOrWhiteSpace(identity) ? identity : throw new OrderingDomainException(nameof(identity));
-        Name = !string.IsNullOrWhiteSpace(name) ? name : throw new OrderingDomainException(nameof(name));
+        IdentityGuid = !string.IsNullOrWhiteSpace(identity) ? identity : throw new ArgumentNullException(nameof(identity));
+        Name = !string.IsNullOrWhiteSpace(name) ? name : throw new ArgumentNullException(nameof(name));
     }
 
     public PaymentMethod VerifyOrAddPaymentMethod(

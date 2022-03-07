@@ -3,18 +3,16 @@ using Catalog.API.Infastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Catalog.API.Infastructure.Migrations.CatalogContext
+namespace Catalog.API.Infastructure.Migrations.CatalogMigrations
 {
-    [DbContext(typeof(Catalog.API.Infastructure.CatalogContext))]
-    [Migration("20220110213616_Initial")]
-    partial class Initial
+    [DbContext(typeof(CatalogContext))]
+    partial class CatalogContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,16 +68,25 @@ namespace Catalog.API.Infastructure.Migrations.CatalogContext
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MaxStockThreshold")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("OnReorder")
+                        .HasColumnType("bit");
 
                     b.Property<string>("PictureFileName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(16,2)");
+
+                    b.Property<int>("RestockThreshold")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

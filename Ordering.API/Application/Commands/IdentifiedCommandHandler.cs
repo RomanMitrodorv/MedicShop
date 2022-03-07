@@ -18,13 +18,13 @@ public class IdentifiedCommandHandler<T, R> : IRequestHandler<IdentifiedCommand<
     }
     protected virtual R CreateResultForDuplicateRequest()
     {
-        return default(R);
+        return default;
     }
     public async Task<R> Handle(IdentifiedCommand<T, R> request, CancellationToken cancellationToken)
     {
         var alreadyExists = await _requestManager.ExistAsync(request.Id);
         if (alreadyExists)
-            CreateResultForDuplicateRequest();
+            return CreateResultForDuplicateRequest();
 
         await _requestManager.CreateRequestForCommandAsync<T>(request.Id);
         try
@@ -72,7 +72,7 @@ public class IdentifiedCommandHandler<T, R> : IRequestHandler<IdentifiedCommand<
         }
         catch
         {
-            return default(R);
+            return default;
         }
     }
 }

@@ -11,6 +11,7 @@
 		<IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
 	</PropertyGroup>
 
+
 	<ItemGroup>
 		<Content Update="appsettings.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -18,11 +19,20 @@
 		<Content Update="wwwroot;">
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>
+		<Content Include="Pics\**\*;">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Include="Setup\**\*;">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Remove="Setup\Catalogitems - Copy.zip" />
+		<None Remove="Setup\Catalogitems - Copy.zip" />
 		<Content Update="web.config;">
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>
 	</ItemGroup>
-	
+
+
 	<ItemGroup>
 		<Protobuf Include="Proto\catalog.proto" GrpcServices="Server" Generator="MSBuild:Compile" />
 		<Content Include="@(Protobuf)" />
