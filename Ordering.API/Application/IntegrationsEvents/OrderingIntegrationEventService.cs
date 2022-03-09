@@ -2,30 +2,30 @@
 
 public class OrderingIntegrationEventService : IOrderingIntegrationEventService
 {
-    private readonly ILogger<OrderingIntegrationEventService> _logger;
-    private readonly IEventBus _eventBus;
-    private readonly OrderingContext _context;
-    private readonly IIntegrationEventLogService _eventLogService;
     private readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;
+    private readonly IEventBus _eventBus;
+    private readonly OrderingContext _orderingContext;
+    private readonly IIntegrationEventLogService _eventLogService;
+    private readonly ILogger<OrderingIntegrationEventService> _logger;
 
-    public OrderingIntegrationEventService(ILogger<OrderingIntegrationEventService> logger,
-        IEventBus eventBus,
-        OrderingContext context,
-        IIntegrationEventLogService eventLogService,
-        Func<DbConnection, IIntegrationEventLogService> integrationEventLogServiceFactory)
+    public OrderingIntegrationEventService(IEventBus eventBus,
+        OrderingContext orderingContext,
+        IntegrationEventLogContext eventLogContext,
+        Func<DbConnection, IIntegrationEventLogService> integrationEventLogServiceFactory,
+        ILogger<OrderingIntegrationEventService> logger)
     {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _orderingContext = orderingContext ?? throw new ArgumentNullException(nameof(orderingContext));
         _integrationEventLogServiceFactory = integrationEventLogServiceFactory ?? throw new ArgumentNullException(nameof(integrationEventLogServiceFactory));
-        _eventLogService = _integrationEventLogServiceFactory(_context.Database.GetDbConnection());
+        _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+        _eventLogService = _integrationEventLogServiceFactory(_orderingContext.Database.GetDbConnection());
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task AddAndSaveEventAsync(IntegrationEvent evt)
     {
         _logger.LogInformation("----- Enqueuing integration event {IntegrationEventId} to repository ({@IntegrationEvent})", evt.Id, evt);
 
-        await _eventLogService.SaveEventAsync(evt, _context.GetCurrentTransaction());
+        await _eventLogService.SaveEventAsync(evt, _orderingContext.GetCurrentTransaction());
     }
 
     public async Task PublishEventsThroughEventBusAsync(Guid transactionId)

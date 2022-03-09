@@ -20,7 +20,7 @@ public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
 
         try
         {
-            if (_dbContext.IsHaveActiveTransaction())
+            if (_dbContext.HasActiveTransaction)
                 return await next();
 
             var strategy = _dbContext.Database.CreateExecutionStrategy();
@@ -29,7 +29,7 @@ public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
             {
                 Guid transactionId;
 
-                using var transaction = await _dbContext.BeginTransactionAsync();
+                using (var transaction = await _dbContext.BeginTransactionAsync())
                 using (LogContext.PushProperty("TransactionContext", transaction.TransactionId))
                 {
                     _logger.LogInformation("----- Begin transaction {TransactionId} for {CommandName} ({@Command})", transaction.TransactionId, typeName, request);
@@ -56,4 +56,3 @@ public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
         }
     }
 }
-

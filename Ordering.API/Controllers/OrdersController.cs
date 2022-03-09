@@ -73,9 +73,15 @@
         public async Task<ActionResult<IEnumerable<OrderSummary>>> GetOrdersAsync()
         {
             var userid = _identityService.GetUserIdentity();
-            var orders = await _orderQueries.GetOrdersFromUserAsync(Guid.Parse(userid));
+            try
+            {
+                var orders = await _orderQueries.GetOrdersFromUserAsync(Guid.Parse(userid));
+            }
+            catch (Exception e)
+            {
 
-            return Ok(orders);
+            }
+            return Ok();
         }
 
         [Route("cardtypes")]

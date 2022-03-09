@@ -45,7 +45,7 @@ namespace IntegrationEventLogEF.Services
         }
         protected virtual void Dispose(bool disposing)
         {
-            if(!_disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
@@ -65,17 +65,22 @@ namespace IntegrationEventLogEF.Services
         public async Task<IEnumerable<IntegrationEventLogEntry>> GetEventLogsPendingToPublishAsync(Guid transactionId)
         {
             var tid = transactionId.ToString();
-
-            var result = await _context.IntegrationEventLogs
-                .Where(x => x.TransactionId == tid && x.State == EventStateEnum.NotPublished)
-                .ToListAsync();
-
-            if (result != null && result.Any())
+            try
             {
-                return result.OrderBy(o => o.CreationTime)
-                    .Select(e => e.DeserializeJsonContent(_eventTypes.Find(t => t.Name == e.EventTypeShortName)));
-            }
+                var result = await _context.IntegrationEventLogs
+                    .Where(x => x.TransactionId == tid && x.State == EventStateEnum.NotPublished)
+                    .ToListAsync();
 
+                if (result != null && result.Any())
+                {
+                    return result.OrderBy(o => o.CreationTime)
+                        .Select(e => e.DeserializeJsonContent(_eventTypes.Find(t => t.Name == e.EventTypeShortName)));
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
             return new List<IntegrationEventLogEntry>();
         }
 

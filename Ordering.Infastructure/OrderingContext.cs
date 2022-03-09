@@ -10,8 +10,12 @@ public class OrderingContext : DbContext, IUnitOfWork
     public DbSet<Buyer> Buyers { get; set; }
     public DbSet<CardType> CardTypes { get; set; }
 
+    public DbSet<OrderStatus> OrderStatus { get; set; }
+
     private readonly IMediator _mediator;
     private IDbContextTransaction _currentTransaction;
+
+    public bool HasActiveTransaction => _currentTransaction != null;
 
     public OrderingContext(DbContextOptions<OrderingContext> options) : base(options) { }
 
@@ -49,9 +53,10 @@ public class OrderingContext : DbContext, IUnitOfWork
     {
         if (_currentTransaction != null) return null;
 
-        return await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
-    }
+        _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
 
+        return _currentTransaction;
+    }
     public async Task CommitTransactionAsync(IDbContextTransaction transaction)
     {
         if (transaction == null) throw new ArgumentNullException(nameof(transaction));

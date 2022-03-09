@@ -27,7 +27,7 @@ public class OrderQueries : IOrderQueries
 
             var result = await connection.QueryAsync<dynamic>(
                 @"select o.[Id] as ordernumber,o.OrderDate as date, o.Description as description,
-                    o.Address_City as city, o.Address_Country as country, o.Address_State as state, o.Address_Street as street, o.Address_ZipCode as zipcode,
+                    o.Address_City as city, o.Address_Country as country, o.Address_Street as street, o.Address_ZipCode as zipcode,
                     os.Name as status, 
                     oi.ProductName as productname, oi.Units as units, oi.UnitPrice as unitprice, oi.PictureUrl as pictureurl
                     FROM ordering.Orders o
@@ -48,18 +48,20 @@ public class OrderQueries : IOrderQueries
     {
         using (var connection = new SqlConnection(_connectionString))
         {
+
             connection.Open();
 
-            return connection.QueryAsync<OrderSummary>(@"select o.[Id] as ordernumber, o.[OrderDate] as [date], os.[Name] as [status], sum(oi.units * oi.unitprice) as total
-                from [ordering].[order]            as o
+            return connection.QueryAsync<OrderSummary>(@"select o.[Id] as ordernumber, o.[OrderDate] as [date], s.[Name] as [status], sum(i.units * i.unitprice) as total
+                from [ordering].[orders]            as o
                 left join [ordering].[orderitems]  as i on i.orderid = o.id
                 left join [ordering].[orderstatus] as s on s.Id = o.OrderStatusId
                 left join [ordering].[buyers]      as b on b.Id = o.BuyerId
                 where b.IdentityGuid = @userId
-                group by o.[Id], o.[OrderDate], os.[Name] 
+                group by o.[Id], o.[OrderDate], s.[Name] 
                 order by o.[Id]", new { userId });
         }
     }
+
 
 
     private Order MapOrderItems(dynamic result)

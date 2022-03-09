@@ -12,7 +12,7 @@ namespace IntegrationEventLogEF
         {
         }
 
-        public DbSet<IntegrationEventLogEntry> IntegrationEventLogs { get;set; }
+        public DbSet<IntegrationEventLogEntry> IntegrationEventLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) => modelBuilder.Entity<IntegrationEventLogEntry>(ConfigureIntegrationEventLogEntry);
 
@@ -34,12 +34,11 @@ namespace IntegrationEventLogEF
             builder.Property(e => e.State)
                 .IsRequired();
 
-            builder.Property(e => e.EventTypeName)
-                .IsRequired();
-
             builder.Property(e => e.TimesSent)
                 .IsRequired();
 
+            builder.Property(e => e.EventTypeName)
+                .IsRequired();
         }
 
     }
