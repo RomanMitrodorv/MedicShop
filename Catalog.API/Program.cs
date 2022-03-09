@@ -5,12 +5,12 @@ Log.Logger = GetLogger(configuration);
 try
 {
     Log.Information("Configuring web host ({ApplicationContext})...", Program.AppName);
-    
+
     var host = CreateHostBuilder(configuration, args);
-    
+
     Log.Information("Applying migrations ({ApplicationContext})...", Program.AppName);
 
-    host.MigrateDbContext<CatalogContext>((_, __) =>{ })
+    host.MigrateDbContext<CatalogContext>((_, __) => { })
         .MigrateDbContext<IntegrationEventLogContext>((_, __) => { });
 
     Log.Information("Starting web host ({ApplicationContext})...", Program.AppName);

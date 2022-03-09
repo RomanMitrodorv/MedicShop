@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace Catalog.API.Controllers
+﻿namespace Catalog.API.Controllers
 {
     public class HomeController : Controller
     {

@@ -19,13 +19,13 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, boo
     public async Task<bool> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
         var orderStartedEvent = new OrderStartedIntegrationEvent(request.UserId);
-        
+
         await _orderingIntegrationEventService.AddAndSaveEventAsync(orderStartedEvent);
 
         var address = new Address(request.Street, request.City, request.Country, request.ZipCode);
         var order = new Domain.AggregatesModel.OrderAggregate.Order(request.UserId, request.UserName, request.CardTypeId, request.CardNumber, request.CardSecurityNumber, request.CardHolderName, request.CardExpiration, address);
 
-        foreach(var item in request.OrderItems)
+        foreach (var item in request.OrderItems)
         {
             order.AddOrderItem(item.ProductId, item.ProductName, item.UnitPrice, item.Discount, item.PictureUrl, item.Units);
         }

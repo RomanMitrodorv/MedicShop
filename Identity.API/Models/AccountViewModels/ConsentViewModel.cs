@@ -1,6 +1,4 @@
-﻿using IdentityServer4.Models;
-
-namespace Services.Identity.API.Models.AccountViewModels
+﻿namespace Services.Identity.API.Models.AccountViewModels
 {
     public record ConsentViewModel : ConsentInputModel
     {

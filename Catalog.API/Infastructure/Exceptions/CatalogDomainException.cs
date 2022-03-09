@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace Catalog.API.Infastructure.Exceptions
+﻿namespace Catalog.API.Infastructure.Exceptions
 {
     public class CatalogDomainException : Exception
     {

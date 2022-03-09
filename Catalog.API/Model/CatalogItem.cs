@@ -20,7 +20,7 @@ namespace Catalog.API.Model
 
         public int RemoveStock(int quantity)
         {
-            if(AvailableStock == 0)
+            if (AvailableStock == 0)
                 throw new CatalogDomainException($"Empty stock, product item {Name} is sold out");
 
             if (quantity <= 0)

@@ -23,7 +23,7 @@ public class ValidatorBehavior<TRequest, TRepsonse> : IPipelineBehavior<TRequest
             .Where(err => err != null)
             .ToList();
 
-        if(failures.Any())
+        if (failures.Any())
         {
             _logger.LogWarning("Validations errors - {CommandType} - Command {@Command} - Errors: {@ValidationErrors}", typeName, request, failures);
 

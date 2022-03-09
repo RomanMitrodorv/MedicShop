@@ -4,7 +4,7 @@ public class CatalogScenarios : CatalogScenariosBase
 
     [Fact]
     public async Task Get_get_all_catalogitems_and_response_ok_status_code()
-   {
+    {
         using (var server = CreateServer())
         {
             var response = await server.CreateClient()

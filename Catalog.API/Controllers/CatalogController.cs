@@ -1,6 +1,4 @@
-﻿using Catalog.API.IntegrationEvents.Events;
-
-namespace Catalog.API.Controllers
+﻿namespace Catalog.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
@@ -242,7 +240,7 @@ namespace Catalog.API.Controllers
             var catalogItem = await _catalogContext.CatalogItems.SingleOrDefaultAsync(x => x.Id == itemForUpdate.Id);
 
             if (catalogItem == null)
-                return NotFound(new {Message = $"Item with id {itemForUpdate.Id} not found"});
+                return NotFound(new { Message = $"Item with id {itemForUpdate.Id} not found" });
 
             var oldPrice = catalogItem.Price;
 

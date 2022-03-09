@@ -23,8 +23,8 @@ public class BasketScenarios : BasketScenarioBase
 
         var content = new StringContent(BuildBasket(), Encoding.UTF8, "application/json");
 
-         await server.CreateClient()
-            .PostAsync(Post.Basket, content);
+        await server.CreateClient()
+           .PostAsync(Post.Basket, content);
 
         var checkout = new StringContent(BuildCheckout(), Encoding.UTF8, "application/json");
 

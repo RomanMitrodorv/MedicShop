@@ -11,7 +11,7 @@ class AutoAuthorizeMiddleware
         _next = next;
     }
 
-    public async Task Invoke(HttpContext httpContext) 
+    public async Task Invoke(HttpContext httpContext)
     {
         var identity = new ClaimsIdentity("cookies");
 

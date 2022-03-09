@@ -4,7 +4,7 @@
     {
         public static void FillProductUrl(this CatalogItem item, string picBaseUrl)
         {
-            if(item != null)
+            if (item != null)
             {
                 item.PictureUri = picBaseUrl.Replace("[0]", item.Id.ToString());
             }

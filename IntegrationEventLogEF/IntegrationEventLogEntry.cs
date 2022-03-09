@@ -10,7 +10,7 @@
             State = EventStateEnum.NotPublished;
             TimesSent = 0;
             CreationTime = @event.CreationDate;
-            Content = JsonSerializer.Serialize(@event, @event.GetType(), new JsonSerializerOptions { WriteIndented = true});
+            Content = JsonSerializer.Serialize(@event, @event.GetType(), new JsonSerializerOptions { WriteIndented = true });
             TransactionId = transactionId.ToString();
         }
 

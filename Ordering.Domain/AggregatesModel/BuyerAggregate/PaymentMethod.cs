@@ -19,7 +19,7 @@ public class PaymentMethod : Entity
         _securityNumber = !string.IsNullOrWhiteSpace(securityNumber) ? securityNumber : throw new ArgumentNullException(nameof(securityNumber));
         _cardHolderName = !string.IsNullOrWhiteSpace(cardHolderName) ? cardHolderName : throw new ArgumentNullException(nameof(cardHolderName));
 
-        if(expiration < DateTime.UtcNow)
+        if (expiration < DateTime.UtcNow)
             throw new OrderingDomainException(nameof(expiration));
 
         _alias = alias;
@@ -34,6 +34,6 @@ public class PaymentMethod : Entity
             && _cardNumber == cardNumber
             && _expiration == expiration;
     }
-    
+
 }
 

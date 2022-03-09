@@ -4,6 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<GenerateErrorForMissingTargetingPacks>false</GenerateErrorForMissingTargetingPacks>
 		<IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+		<DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
 	</PropertyGroup>
 
 	<ItemGroup>
